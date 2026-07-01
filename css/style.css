@@ -1,0 +1,96 @@
+:root {
+  --living-color: #fff8ec;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Lexend";
+}
+
+body {
+  display: flex;
+  height: 100vh;
+}
+
+#configs {
+  background-color: #f3f3f3;
+  height: calc(100vh - 20px);
+  width: fit-content;
+  padding: 10px;
+  margin: 10px;
+}
+
+#gridContainer {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#grid {
+  display: grid;
+  /* gap: 1px; */
+  padding: 5px;
+}
+
+#extrasContainer {
+  padding: 5px;
+  height: fit-content;
+  width: fit-content;
+  margin-left: auto;
+}
+
+#extrasContainer #infoContainer p {
+  text-align: center;
+}
+
+#randomize {
+  width: 90px;
+  height: fit-content;
+  margin: 2.5px;
+}
+
+#play {
+  width: 90px;
+  height: fit-content;
+  margin: 2.5px;
+}
+
+.livingCell {
+  background-color: var(--living-color);
+}
+.deadCell {
+  background-color: #020018;
+}
+.stage1 { background-color: #ffffff; }
+.stage2 { background-color: #fff7e8; }
+.stage3 { background-color: #ffeed1; }
+.stage4 { background-color: #ffe2b1; }
+.stage5 { background-color: #ffcd82; }
+.stage6 { background-color: #ffb954; }
+.stage7 { background-color: #ffac44; }
+.stage8 { background-color: #ffa340; }
+.stage9 { background-color: #ff9c3c; }
+.stage10 { background-color: #ffb739; }
+.stage11 { background-color: #ffd236; }
+.stage12 { background-color: #f8e239; }
+.stage13 { background-color: #eae543; }
+.stage14 { background-color: #dce84d; }
+.stage15 { background-color: #c2e14f; }
+.stage16 { background-color: #a6d750; }
+.stage17 { background-color: #8ace50; }
+.stage18 { background-color: #71c150; }
+.stage19 { background-color: #58b550; }
+.stage20 { background-color: #48b361; }
+.stage21 { background-color: #41ba7f; }
+.stage22 { background-color: #3ac09d; }
+.stage23 { background-color: #31c7bb; }
+.stage24 { background-color: #28ced8; }
+.stage25 { background-color: #25d0ef; }
+.stage26 { background-color: #30c6f1; }
+.stage27 { background-color: #3bbcf4; }
+.stage28 { background-color: #46bcf7; }
+.stage29 { background-color: #52c2fb; }
+.stage30 { background-color: #5ec8ff; }

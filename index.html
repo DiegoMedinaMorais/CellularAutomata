@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cellular automata</title>
+    <link rel="stylesheet" href="css/style.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <aside id="configsContainer">
+      <form id="configs">
+        <h3>Rules</h3>
+        <h4 id="rule">B3/S23</h4>
+        <br />
+        <p>Birth [B]:</p>
+        <input value="3" id="birth" type="text" />
+        <p>Survival [S]:</p>
+        <input value="2,3" id="survival" type="text" />
+        <br />
+        <br />
+        <h3>Grid</h3>
+        <h4 id="gridSize">10x10</h4>
+        <br />
+        <p>Width:</p>
+        <input value="10" id="width" type="number" />
+        <p>Height:</p>
+        <input value="10" id="height" type="number" />
+        <br />
+         <br />
+        <h3>Randomize</h3>
+        <br />
+        <p>Square size:</p>
+        <input value="10" id="squareSize" type="number" />
+        <br />
+        <p>Density:</p>
+        <input value="50" id="density" type="number" />
+        <br />
+        <br />
+        <h3>Extra</h3>
+        <br />
+        <p>Cell color:</p>
+        <input value="#fff8ec" id="cellColor" type="color" />
+        <br />
+        <p>Age visualization:</p>
+        <input checked id="ageVisualization" type="checkbox" />
+        <br />
+        <p>Speed:</p>
+        <input value="0.2" id="speed" type="number" />
+        <br />
+        <br />
+        <button id="resetButton" type="button" onclick="reset()">
+          Reset config
+        </button>
+        <button id="applyButton" type="button" onclick="set()">
+          Apply config
+        </button>
+      </form>
+    </aside>
+
+    <div id="gridContainer">
+      <div id="grid"></div>
+    </div>
+    <div id="extrasContainer">
+      <div id="buttonsContainer">
+        <button onclick="randomize(10)" id="randomize">Randomize</button>
+        <br />
+        <button onclick="pauseToggle()" id="play">Play</button>
+      </div>
+      <br>
+      <div id="infoContainer">
+        <p id="gen">gen [/]</p>
+      </div>
+    </div>
+
+    <script src="js/script.js"></script>
+    <script src="js/stages.js"></script>
+  </body>
+</html>
