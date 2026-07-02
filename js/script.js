@@ -8,12 +8,18 @@ let height = 10;
 let nextStates = [];
 let speed = 0.2;
 let ageArray = [];
+let deathArray = [];
 let ageVisualization = true;
+let deathVisualization = true;
 let history = [];
 let maxHistory = 20;
 let countGeneration = true;
 let density = 50;
 let squareSize = 10;
+let maxCellSize = 15;
+let minCellSize = 2;
+let cells = [];
+let toroidalGrid = true;
 
 document.addEventListener("mousedown", () => {
   mouseDown = true;
@@ -38,7 +44,7 @@ const getGridState = () => {
 };
 
 const startPaint = (id) => {
-  let cell = document.getElementById(id);
+  let cell = cells[id];
 
   paintAlive = cell.classList.contains("deadCell");
 
@@ -51,16 +57,38 @@ const dragPaint = (id) => {
   toggleLiving(id, paintAlive);
 };
 
+const calculateCellSize = (cols, rows) => {
+  const container = document.getElementById("content") || document.body;
+  const availableWidth = container.clientWidth - 20;
+  const availableHeight = container.clientHeight - 20;
+
+  const sizeByWidth = availableWidth / cols;
+  const sizeByHeight = availableHeight / rows;
+
+  let size = Math.min(maxCellSize, sizeByWidth, sizeByHeight);
+  size = Math.max(minCellSize, size);
+
+  return size;
+};
+
+const applyCellSize = () => {
+  const cellSize = calculateCellSize(width, height);
+  grid.style.setProperty("--cell-size", `${cellSize}px`);
+};
+
 const buildGrid = (width, height) => {
   countGeneration = true;
   gen = 0;
   history.length = 0;
   ageArray = [];
+  deathArray = [];
   grid.innerHTML = "";
 
-  grid.style.gridTemplateColumns = `repeat(${width}, 15px)`;
-  grid.style.gridAutoRows = "15px";
+  grid.style.gridTemplateColumns = `repeat(${width}, var(--cell-size))`;
+  grid.style.gridAutoRows = "var(--cell-size)";
   grid.style.border = "2px solid #020018";
+
+  applyCellSize();
 
   let html = "";
 
@@ -70,31 +98,44 @@ const buildGrid = (width, height) => {
     id="${i}"
     class="deadCell"
     onmousedown="startPaint(${i})"
-    onmouseenter="dragPaint(${i})"
-    style="width:15px;height:15px;">
+    onmouseenter="dragPaint(${i})">
 </div>`;
   }
 
   grid.innerHTML = html;
+
+  cells = [...grid.children];
 };
+
+window.addEventListener("resize", () => {
+  applyCellSize();
+});
 
 const toggleLiving = (id, state = null) => {
   let cell = document.getElementById(id);
-
   let makeAlive = state === null ? cell.classList.contains("deadCell") : state;
 
   if (makeAlive) {
     cell.classList.remove("deadCell");
     cell.classList.add("livingCell");
+
+    cell.classList.remove(...corpseClasses);
+    let deathIdx = deathArray.findIndex((it) => it.id === id);
+    if (deathIdx !== -1) deathArray.splice(deathIdx, 1);
   } else {
     cell.classList.remove("livingCell");
     cell.classList.add("deadCell");
-    cell.classList.remove(...stageClasses);
 
+    cell.classList.remove(...stageClasses);
     let idx = ageArray.findIndex((it) => it.id === id);
     if (idx !== -1) ageArray.splice(idx, 1);
+
+    cell.classList.remove(...corpseClasses);
+    let deathIdx = deathArray.findIndex((it) => it.id === id);
+    if (deathIdx !== -1) deathArray.splice(deathIdx, 1);
   }
 };
+
 const randomize = () => {
   set();
   let startId =
@@ -130,6 +171,8 @@ const set = () => {
   history.length = 0;
 
   ageVisualization = document.getElementById("ageVisualization").checked;
+  deathVisualization = document.getElementById("deathVisualization").checked;
+  toroidalGrid = document.getElementById("toroidalGridMode").checked;
 
   speed = Number(speedValue);
 
@@ -162,6 +205,21 @@ const set = () => {
   buildGrid(width, height);
 };
 
+const setRulestring = (b, s) => {
+  pause = true;
+
+  let birthValue = (document.getElementById("birth").value = b);
+  let survivalValue = (document.getElementById("survival").value = s);
+
+  let rule = document.getElementById("rule");
+
+  countGeneration = true;
+  gen = 0;
+  history.length = 0;
+
+  rule.innerHTML = `B${birth.join("")}/S${survival.join("")}`;
+};
+
 const reset = () => {
   pause = true;
   let widthInput = document.getElementById("width");
@@ -173,6 +231,8 @@ const reset = () => {
   let gridSize = document.getElementById("gridSize");
   let colorInput = document.getElementById("cellColor");
   let ageValue = document.getElementById("ageVisualization");
+  let deathValue = document.getElementById("deathVisualization");
+  let toroidalValue = document.getElementById("toroidalGridMode");
   let squareSizeValue = document.getElementById("squareSize").value;
   let densityValue = document.getElementById("density").value;
 
@@ -181,7 +241,11 @@ const reset = () => {
   history.length = 0;
 
   ageValue.checked = true;
+  deathValue.checked = true;
+  toroidalValue.checked = true;
   ageVisualization = true;
+  deathVisualization = true;
+  toroidalGrid = true;
 
   speed = 0.2;
   speedInput.value = speed;
@@ -215,45 +279,103 @@ const reset = () => {
 };
 
 const mainFunction = (id) => {
-  let right = id + 1;
-  let left = id - 1;
-  let bottom = id + width;
-  let bottomRight = id + width + 1;
-  let bottomLeft = id + width - 1;
-  let top = id - width;
-  let topRight = id - width + 1;
-  let topLeft = id - width - 1;
+  let right;
+  let left;
+  let bottom;
+  let bottomRight;
+  let bottomLeft;
+  let top;
+  let topRight;
+  let topLeft;
 
-  for (let i = 0; i < height; i++) {
-    if (id == width * i) {
-      left = -999;
-      topLeft = -999;
-      bottomLeft = -999;
+  if (toroidalGrid == true) {
+    right = id + 1;
+    left = id - 1;
+    bottom = id + width;
+    top = id - width;
+
+    for (let i = 0; i < height; i++) {
+      if (id == width * i) {
+        left = id + width - 1;
+      }
     }
-  }
-  for (let i = 0; i < width; i++) {
-    if (id == 1 * i) {
-      top = -999;
-      topRight = -999;
-      topLeft = -999;
+
+    for (let i = 0; i < height; i++) {
+      if (id == width * i + (width - 1)) {
+        right = id - width + 1;
+      }
     }
-  }
-  for (let i = 0; i < height; i++) {
-    if (id == width * i + (width - 1)) {
-      right = -999;
-      topRight = -999;
-      bottomRight = -999;
+
+    for (let i = 0; i < width; i++) {
+      if (id == i) {
+        top = id + width * (height - 1);
+      }
     }
-  }
-  for (let i = 0; i < width; i++) {
-    if (id == width * height - 1 - i) {
-      bottom = -999;
-      bottomRight = -999;
-      bottomLeft = -999;
+
+    for (let i = 0; i < width; i++) {
+      if (id == width * (height - 1) + i) {
+        bottom = i;
+      }
+    }
+
+    topLeft = top - 1;
+    topRight = top + 1;
+    bottomLeft = bottom - 1;
+    bottomRight = bottom + 1;
+
+    for (let i = 0; i < height; i++) {
+      if (id == width * i) {
+        topLeft = top + width - 1;
+        bottomLeft = bottom + width - 1;
+      }
+    }
+
+    for (let i = 0; i < height; i++) {
+      if (id == width * i + (width - 1)) {
+        topRight = top - width + 1;
+        bottomRight = bottom - width + 1;
+      }
+    }
+  } else {
+    right = id + 1;
+    left = id - 1;
+    bottom = id + width;
+    bottomRight = id + width + 1;
+    bottomLeft = id + width - 1;
+    top = id - width;
+    topRight = id - width + 1;
+    topLeft = id - width - 1;
+    for (let i = 0; i < height; i++) {
+      if (id == width * i) {
+        left = -999;
+        topLeft = -999;
+        bottomLeft = -999;
+      }
+    }
+    for (let i = 0; i < width; i++) {
+      if (id == 1 * i) {
+        top = -999;
+        topRight = -999;
+        topLeft = -999;
+      }
+    }
+    for (let i = 0; i < height; i++) {
+      if (id == width * i + (width - 1)) {
+        right = -999;
+        topRight = -999;
+        bottomRight = -999;
+      }
+    }
+    for (let i = 0; i < width; i++) {
+      if (id == width * height - 1 - i) {
+        bottom = -999;
+        bottomRight = -999;
+        bottomLeft = -999;
+      }
     }
   }
 
-  let cell = document.getElementById(id);
+  let cell = cells[id];
 
   let neighbors = [
     right,
@@ -298,11 +420,11 @@ function updateAgeById(id, age) {
 const applyAge = () => {
   for (let i = 0; i < grid.children.length; i++) {
     let alive = nextStates[i];
-    let cell = document.getElementById(i);
- 
+    let cell = cells[i];
+
     if (alive) {
       let existingAge = getAgeById(i);
- 
+
       if (existingAge) {
         let newAge = existingAge.age + 1;
         updateAgeById(i, newAge);
@@ -318,17 +440,64 @@ const applyAge = () => {
       cell.classList.remove(...stageClasses);
     }
   }
+};
+
+function getDeathById(id) {
+  let d = deathArray.find((it) => it.id === id);
+  return d;
 }
+
+function updateDeathById(id, deaths) {
+  let it = deathArray.find((obj) => obj.id === id);
+  if (it) {
+    it.deaths = deaths;
+    return true;
+  }
+  return false;
+}
+
+const applyDeath = () => {
+  for (let i = 0; i < grid.children.length; i++) {
+    let alive = nextStates[i];
+    let cell = cells[i];
+
+    if (!alive) {
+      let wasAlive = getAgeById(i);
+      let existingDeath = getDeathById(i);
+
+      if (wasAlive) {
+        let newDeaths = existingDeath ? existingDeath.deaths + 1 : 1;
+
+        if (existingDeath) {
+          updateDeathById(i, newDeaths);
+        } else {
+          deathArray.push({ id: i, deaths: newDeaths });
+        }
+
+        cell.classList.remove(...corpseClasses);
+        cell.classList.add(getCorpseClass(newDeaths));
+      } else if (existingDeath) {
+        cell.classList.remove(...corpseClasses);
+        cell.classList.add(getCorpseClass(existingDeath.deaths));
+      }
+    } else {
+      cell.classList.remove(...corpseClasses);
+    }
+  }
+};
 
 const applyStates = () => {
   for (let i = 0; i < grid.children.length; i++) {
-    let cell = document.getElementById(i);
+    let cell = cells[i];
     let alive = nextStates[i];
 
     cell.classList.toggle("livingCell", alive);
     cell.classList.toggle("deadCell", !alive);
   }
 
+  if (deathVisualization == true) {
+    applyDeath();
+  }
   if (ageVisualization == true) {
     applyAge();
   }
@@ -362,6 +531,22 @@ const run = async () => {
     }
 
     await sleep(speed * 1000);
+  }
+};
+
+let a = false;
+const showCatalog = () => {
+  let catalog = document.getElementById("catalog");
+
+  if (a == false) {
+    catalog.style.visibility = "hidden";
+    a = true;
+  }
+
+  if (catalog.style.visibility == "hidden") {
+    catalog.style.visibility = "visible";
+  } else {
+    catalog.style.visibility = "hidden";
   }
 };
 

@@ -20,13 +20,20 @@ body {
   width: fit-content;
   padding: 10px;
   margin: 10px;
+  overflow-y: auto;
 }
 
-#gridContainer {
+#content {
   flex: 1;
+
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+#gridContainer {
+  width: fit-content;
+  height: fit-content;
 }
 
 #grid {
@@ -58,39 +65,204 @@ body {
   margin: 2.5px;
 }
 
+#catalogButton {
+  width: 100%;
+}
+
+#catalog {
+  visibility: hidden;
+  background-color: #f3f3f3;
+  padding: 10px;
+  width: 300px;
+  position: absolute;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 300px;
+  overflow-y: auto;
+  border: 2px solid #ccc;
+}
+
+#catalog p {
+  width: 100%;
+  text-align: center;
+}
+
+#catalog button {
+  width: 100%;
+}
+
 .livingCell {
   background-color: var(--living-color);
+  /* border: 0.05px solid #02001805; */
 }
 .deadCell {
   background-color: #020018;
 }
-.stage1 { background-color: #ffffff; }
-.stage2 { background-color: #fff7e8; }
-.stage3 { background-color: #ffeed1; }
-.stage4 { background-color: #ffe2b1; }
-.stage5 { background-color: #ffcd82; }
-.stage6 { background-color: #ffb954; }
-.stage7 { background-color: #ffac44; }
-.stage8 { background-color: #ffa340; }
-.stage9 { background-color: #ff9c3c; }
-.stage10 { background-color: #ffb739; }
-.stage11 { background-color: #ffd236; }
-.stage12 { background-color: #f8e239; }
-.stage13 { background-color: #eae543; }
-.stage14 { background-color: #dce84d; }
-.stage15 { background-color: #c2e14f; }
-.stage16 { background-color: #a6d750; }
-.stage17 { background-color: #8ace50; }
-.stage18 { background-color: #71c150; }
-.stage19 { background-color: #58b550; }
-.stage20 { background-color: #48b361; }
-.stage21 { background-color: #41ba7f; }
-.stage22 { background-color: #3ac09d; }
-.stage23 { background-color: #31c7bb; }
-.stage24 { background-color: #28ced8; }
-.stage25 { background-color: #25d0ef; }
-.stage26 { background-color: #30c6f1; }
-.stage27 { background-color: #3bbcf4; }
-.stage28 { background-color: #46bcf7; }
-.stage29 { background-color: #52c2fb; }
-.stage30 { background-color: #5ec8ff; }
+.stage1 {
+  background-color: #ffffff;
+}
+.stage2 {
+  background-color: #fff7e8;
+}
+.stage3 {
+  background-color: #ffeed1;
+}
+.stage4 {
+  background-color: #ffe2b1;
+}
+.stage5 {
+  background-color: #ffcd82;
+}
+.stage6 {
+  background-color: #ffb954;
+}
+.stage7 {
+  background-color: #ffac44;
+}
+.stage8 {
+  background-color: #ffa340;
+}
+.stage9 {
+  background-color: #ff9c3c;
+}
+.stage10 {
+  background-color: #ffb739;
+}
+.stage11 {
+  background-color: #ffd236;
+}
+.stage12 {
+  background-color: #f8e239;
+}
+.stage13 {
+  background-color: #eae543;
+}
+.stage14 {
+  background-color: #dce84d;
+}
+.stage15 {
+  background-color: #c2e14f;
+}
+.stage16 {
+  background-color: #a6d750;
+}
+.stage17 {
+  background-color: #8ace50;
+}
+.stage18 {
+  background-color: #71c150;
+}
+.stage19 {
+  background-color: #58b550;
+}
+.stage20 {
+  background-color: #48b361;
+}
+.stage21 {
+  background-color: #41ba7f;
+}
+.stage22 {
+  background-color: #3ac09d;
+}
+.stage23 {
+  background-color: #31c7bb;
+}
+.stage24 {
+  background-color: #28ced8;
+}
+.stage25 {
+  background-color: #25d0ef;
+}
+.stage26 {
+  background-color: #30c6f1;
+}
+.stage27 {
+  background-color: #3bbcf4;
+}
+.stage28 {
+  background-color: #46bcf7;
+}
+.stage29 {
+  background-color: #52c2fb;
+}
+.stage30 {
+  background-color: #5ec8ff;
+}
+
+.corpse1 {
+  background-color: #08001c;
+}
+.corpse2 {
+  background-color: #08011f;
+}
+.corpse3 {
+  background-color: #080221;
+}
+.corpse4 {
+  background-color: #090324;
+}
+.corpse5 {
+  background-color: #090427;
+}
+.corpse6 {
+  background-color: #090529;
+}
+.corpse7 {
+  background-color: #0a062c;
+}
+.corpse8 {
+  background-color: #0a082f;
+}
+.corpse9 {
+  background-color: #0a0931;
+}
+.corpse10 {
+  background-color: #0a0a34;
+}
+.corpse11 {
+  background-color: #0a0b37;
+}
+.corpse12 {
+  background-color: #0b0c39;
+}
+.corpse13 {
+  background-color: #0b0d3c;
+}
+.corpse14 {
+  background-color: #0b0e3f;
+}
+.corpse15 {
+  background-color: #0c0f41;
+}
+.corpse16 {
+  background-color: #0c1044;
+}
+.corpse17 {
+  background-color: #0c1147;
+}
+.corpse18 {
+  background-color: #0c1249;
+}
+.corpse19 {
+  background-color: #0c144c;
+}
+.corpse20 {
+  background-color: #0d154f;
+}
+.corpse21 {
+  background-color: #0d1651;
+}
+.corpse22 {
+  background-color: #0d1754;
+}
+.corpse23 {
+  background-color: #0e1857;
+}
+.corpse24 {
+  background-color: #0e1959;
+}
+.corpse25 {
+  background-color: #0e1a5c;
+}

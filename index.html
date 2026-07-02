@@ -32,8 +32,11 @@
         <input value="10" id="width" type="number" />
         <p>Height:</p>
         <input value="10" id="height" type="number" />
+        <br>
+         <p>Toroidal grid:</p>
+        <input checked id="toroidalGridMode" type="checkbox" />
         <br />
-         <br />
+        <br />
         <h3>Randomize</h3>
         <br />
         <p>Square size:</p>
@@ -51,21 +54,357 @@
         <p>Age visualization:</p>
         <input checked id="ageVisualization" type="checkbox" />
         <br />
+        <p>Death visualization:</p>
+        <input checked id="deathVisualization" type="checkbox" />
+        <br />
         <p>Speed:</p>
         <input value="0.2" id="speed" type="number" />
+        <br />
+        <br />
+        <button id="catalogButton" type="button" onclick="showCatalog()">
+          Rulestrings catalog
+        </button>
         <br />
         <br />
         <button id="resetButton" type="button" onclick="reset()">
           Reset config
         </button>
+        <br>
+        <br>
         <button id="applyButton" type="button" onclick="set()">
           Apply config
         </button>
       </form>
     </aside>
 
-    <div id="gridContainer">
-      <div id="grid"></div>
+    <div id="catalog">
+      <p>[RULESTRINGS CATALOG]</p>
+      <br />
+      <button onclick="setRulestring('3', '2,3')" class="rulestringButton">
+        Conway's Game of Life - B3/S23
+      </button>
+      <br />
+      <button
+        onclick="setRulestring('3', '4,5,6,7,8')"
+        class="rulestringButton"
+      >
+        Coral - B3/S45678
+      </button>
+      <br />
+      <button
+        onclick="setRulestring('3', '0,1,2,3,4,5,6,7,8')"
+        class="rulestringButton"
+      >
+        Life Without Death - B3/S012345678
+      </button>
+      <br />
+      <button onclick="setRulestring('2', '')" class="rulestringButton">
+        Seeds - B2/S
+      </button>
+      <br />
+      <button onclick="setRulestring('2', '0')" class="rulestringButton">
+        Live Free or Die - B2/S0
+      </button>
+      <br />
+      <button
+        onclick="setRulestring('3,4,5,7', '4,5,6,8')"
+        class="rulestringButton"
+      >
+        Gems - B3457/S4568
+      </button>
+      <br />
+      <button
+        onclick="setRulestring('3,4,5,7,8', '4,5,6')"
+        class="rulestringButton"
+      >
+        Gems minor - B34578/S456
+      </button>
+         <br />
+      <button
+        onclick="setRulestring('3', '1,2,3,4,5')"
+        class="rulestringButton"
+      >
+        Maze - B3/S12345
+      </button>
+          <br />
+      <button
+        onclick="setRulestring('3', '1,2,3,4,5')"
+        class="rulestringButton"
+      >
+        Mazectric - B3/S1234
+      </button>
+       <br />
+      <button
+        onclick="setRulestring('3,7', '1,2,3,4,5')"
+        class="rulestringButton"
+      >
+        Mazectric with Mice - B37/S1234
+      </button>
+      <br />
+      <button onclick="setRulestring('3,4,5', '2')" class="rulestringButton">
+        Blinkers - B345/S2
+      </button>
+      <br />
+      <button
+        onclick="setRulestring('3,4,5', '4,5,6,7')"
+        class="rulestringButton"
+      >
+        Assimilation - B345/S4567
+      </button>
+      <br />
+      <button onclick="setRulestring('3,4', '3,4')" class="rulestringButton">
+        3-4 Life - B34/S34
+      </button>
+      <br />
+      <button onclick="setRulestring('3,4', '3,5')" class="rulestringButton">
+        Dance - B34/S35
+      </button>
+      <br />
+      <button onclick="setRulestring('3,4', '4,5,6')" class="rulestringButton">
+        Bacteria - B34/S456
+      </button>
+      <br />
+      <button
+        onclick="setRulestring('3,5,6,7,8', '4,6,7,8')"
+        class="rulestringButton"
+      >
+        Holstein - B35678/S4678
+      </button>
+      <br />
+      <button
+        onclick="setRulestring('3,5,6,7,8', '5,6,7,8')"
+        class="rulestringButton"
+      >
+        Diamoeba - B35678/S5678
+      </button>
+      <br />
+      <button
+        onclick="setRulestring('3,5,6,7', '1,5,6,7,8')"
+        class="rulestringButton"
+      >
+        Bugs - B3567/S15678
+      </button>
+      <br />
+      <button
+        onclick="setRulestring('3,5,7,8', '2,4,6,7,8')"
+        class="rulestringButton"
+      >
+        Geology - B3578/S24678
+      </button>
+      <br />
+      <button
+        onclick="setRulestring('3,5,7', '1,3,5,8')"
+        class="rulestringButton"
+      >
+        Amoeba - B357/S1358
+      </button>
+      <br />
+      <button onclick="setRulestring('3,5', '2,3,6')" class="rulestringButton">
+        Eppstein - B35/S236
+      </button>
+      <br />
+      <button
+        onclick="setRulestring('3,6,7,8', '1,2,5,8')"
+        class="rulestringButton"
+      >
+        2x2 2 - B3678/S1258
+      </button>
+      <br />
+      <button
+        onclick="setRulestring('3,6,7,8', '1,3,5,6,7,8')"
+        class="rulestringButton"
+      >
+        Castles - B3678/S135678
+      </button>
+      <br />
+      <button
+        onclick="setRulestring('3,6,7,8', '2,3,5,6,7,8')"
+        class="rulestringButton"
+      >
+        Stains - B3678/S235678
+      </button>
+      <br />
+      <button
+        onclick="setRulestring('3,6,7,8', '3,4,6,7,8')"
+        class="rulestringButton"
+      >
+        Day and Night - B3678/S34678
+      </button>
+      <br />
+      <button onclick="setRulestring('3,6,7', '2,3')" class="rulestringButton">
+        DrighLife - B367/S23
+      </button>
+      <br />
+      <button
+        onclick="setRulestring('3,6,8', '1,2,8')"
+        class="rulestringButton"
+      >
+        LowFlockDeath - B368/S128
+      </button>
+      <br />
+      <button
+        onclick="setRulestring('3,6,8', '2,3,6')"
+        class="rulestringButton"
+      >
+        Life SkyHigh - B368/S236
+      </button>
+      <br />
+      <button
+        onclick="setRulestring('3,6,8', '2,3,8')"
+        class="rulestringButton"
+      >
+        LowDeath - B368/S238
+      </button>
+      <br />
+      <button
+        onclick="setRulestring('3,6,8', '2,4,5')"
+        class="rulestringButton"
+      >
+        Morley - B368/S245
+      </button>
+      <br />
+      <button onclick="setRulestring('3,6', '1,2')" class="rulestringButton">
+        HighFlock - B36/S12
+      </button>
+      <br />
+      <button onclick="setRulestring('3,6', '1,2,5')" class="rulestringButton">
+        2x2 - B36/S125
+      </button>
+      <br />
+      <button onclick="setRulestring('3,6', '1,2,8')" class="rulestringButton">
+        IronFlock - B36/S128
+      </button>
+      <br />
+      <button onclick="setRulestring('3,6', '2,3')" class="rulestringButton">
+        HighLife - B36/S23
+      </button>
+      <br />
+      <button onclick="setRulestring('3,6', '2,3,5')" class="rulestringButton">
+        Virus - B36/S235
+      </button>
+      <br />
+      <button onclick="setRulestring('3,6', '2,3,8')" class="rulestringButton">
+        IronLife - B36/S238
+      </button>
+      <br />
+      <button onclick="setRulestring('3,6', '2,4,5')" class="rulestringButton">
+        Sqrt replicator rule - B36/S245
+      </button>
+      <br />
+      <button onclick="setRulestring('3,7', '1,2')" class="rulestringButton">
+        DryFlock - B37/S12
+      </button>
+      <br />
+      <button onclick="setRulestring('3,7', '2,3')" class="rulestringButton">
+        DryLife - B37/S23
+      </button>
+      <br />
+      <button onclick="setRulestring('3,8', '1,2')" class="rulestringButton">
+        Pedestrian Flock - B38/S12
+      </button>
+      <br />
+      <button onclick="setRulestring('3,8', '1,2,8')" class="rulestringButton">
+        HoneyFlock - B38/S128
+      </button>
+      <br />
+      <button onclick="setRulestring('3,8', '2,3')" class="rulestringButton">
+        Pedestrian Life - B38/S23
+      </button>
+      <br />
+      <button onclick="setRulestring('3,8', '2,3,8')" class="rulestringButton">
+        HoneyLife - B38/S238
+      </button>
+      <br />
+      <button onclick="setRulestring('3', '0,2,3')" class="rulestringButton">
+        DotLife - B3/S023
+      </button>
+      <br />
+      <button onclick="setRulestring('3', '0,2,4,8')" class="rulestringButton">
+        Star Trek - B3/S0248
+      </button>
+      <br />
+      <button onclick="setRulestring('3', '1,2')" class="rulestringButton">
+        Flock - B3/S12
+      </button>
+      <br />
+      <button onclick="setRulestring('3', '1,2,4')" class="rulestringButton">
+        Corrosion of Conformity - B3/S124
+      </button>
+      <br />
+      <button onclick="setRulestring('3', '1,2,8')" class="rulestringButton">
+        EightFlock - B3/S128
+      </button>
+      <br />
+      <button onclick="setRulestring('3', '1,3')" class="rulestringButton">
+        LowLife - B3/S13
+      </button>
+      <br />
+      <button onclick="setRulestring('3', '2,3,8')" class="rulestringButton">
+        EightLife - B3/S238
+      </button>
+      <br />
+      <button
+        onclick="setRulestring('3', '2,4,5,6,7,8')"
+        class="rulestringButton"
+      >
+        Shoots and Roots - B3/S245678
+      </button>
+      <br />
+      <button onclick="setRulestring('3', '4,5,6,7')" class="rulestringButton">
+        Lifeguard 2 - B3/S4567
+      </button>
+      <br />
+      <button
+        onclick="setRulestring('4,5,6,7,8', '2,3,4,5')"
+        class="rulestringButton"
+      >
+        Walled Cities - B45678/S2345
+      </button>
+      <br />
+      <button
+        onclick="setRulestring('4,5,6,7,8', '5,6,7,8')"
+        class="rulestringButton"
+      >
+        Majority - B45678/S5678
+      </button>
+      <br />
+      <button
+        onclick="setRulestring('4,5', '1,2,3,5')"
+        class="rulestringButton"
+      >
+        Oscillators Rule - B45/S1235
+      </button>
+      <br />
+      <button
+        onclick="setRulestring('4,6,7,8', '3,5,6,7,8')"
+        class="rulestringButton"
+      >
+        Vote 4/5 - B4678/S35678
+      </button>
+      <br />
+      <button onclick="setRulestring('4,8', '2,3,4')" class="rulestringButton">
+        Lifeguard 1 - B48/S234
+      </button>
+      <br />
+      <button
+        onclick="setRulestring('5,6,7,8', '4,5,6,7,8')"
+        class="rulestringButton"
+      >
+        Vote - B5678/S45678
+      </button>
+      <br />
+      <button
+        onclick="setRulestring('5,6', '1,4,5,6,8')"
+        class="rulestringButton"
+      >
+        Rings 'n' Slugs - B56/S14568
+      </button>
+    </div>
+
+    <div id="content">
+      <div id="gridContainer">
+        <div id="grid"></div>
+      </div>
     </div>
     <div id="extrasContainer">
       <div id="buttonsContainer">
@@ -73,7 +412,7 @@
         <br />
         <button onclick="pauseToggle()" id="play">Play</button>
       </div>
-      <br>
+      <br />
       <div id="infoContainer">
         <p id="gen">gen [/]</p>
       </div>
