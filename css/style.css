@@ -14,6 +14,12 @@ body {
   height: 100vh;
 }
 
+h3,
+h4,
+p {
+  color: #2f2e41;
+}
+
 #configs {
   background-color: #f3f3f3;
   height: calc(100vh - 20px);
@@ -21,6 +27,48 @@ body {
   padding: 10px;
   margin: 10px;
   overflow-y: auto;
+  overflow-x: hidden;
+    border-radius: 8px;
+}
+
+input {
+  width: 100%;
+}
+
+#toroidalGridMode,
+#ageVisualization,
+#deathVisualization {
+  width: auto;
+}
+
+.infoText {
+  color: #74728b;
+  width: 180px;
+  font-size: 12px;
+}
+
+#saveWarning {
+  text-align: center;
+  font-size: 12px;
+  color: rgb(255, 47, 47);
+  visibility: hidden;
+  display: none;
+}
+
+#simEstContainer {
+  visibility: hidden;
+  display: none;
+}
+
+#simEst {
+  width: 100px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#cellColor {
+  width: 35px;
+  height: 35px;
 }
 
 #content {
@@ -40,33 +88,35 @@ body {
   display: grid;
   /* gap: 1px; */
   padding: 5px;
+    border-radius:10px;
 }
 
 #extrasContainer {
-  padding: 5px;
+  margin: 10px;
+  padding: 10px;
   height: fit-content;
   width: fit-content;
   margin-left: auto;
+  background-color: #f3f3f3;
+    border-radius: 8px;
 }
 
 #extrasContainer #infoContainer p {
   text-align: center;
 }
 
-#randomize {
-  width: 90px;
-  height: fit-content;
-  margin: 2.5px;
+#cancelButton {
+  background-color: rgb(255, 83, 106);
+  color: #5e00009f;
+  border: 2.5px #5e00009f solid;
+  font-weight: bold;
 }
 
-#play {
-  width: 90px;
-  height: fit-content;
-  margin: 2.5px;
-}
-
-#catalogButton {
-  width: 100%;
+#applyButton {
+  background-color: rgb(195, 255, 83);
+  color: #1542009f;
+  border: 2.5px #1542009f solid;
+  font-weight: bold;
 }
 
 #catalog {
@@ -81,7 +131,9 @@ body {
   transform: translate(-50%, -50%);
   height: 300px;
   overflow-y: auto;
+  overflow-x: hidden;
   border: 2px solid #ccc;
+  z-index: 2;
 }
 
 #catalog p {
@@ -93,10 +145,31 @@ body {
   width: 100%;
 }
 
+button {
+  padding: 5px;
+  width: calc(100% - 10px);
+  border-style: none;
+  border: 2.5px #2f2e416b solid;
+  border-radius: 6px;
+  background-color: #d8d8d8;
+  color: #2f2e41;
+  margin: 5px;
+}
+
+button:hover {
+  transition: 0.2s;
+  transform: scale(1.05);
+}
+
+button:active {
+  transition: 0.2s;
+  transform: scale(0.8);
+}
+
 .livingCell {
   background-color: var(--living-color);
-  /* border: 0.05px solid #02001805; */
 }
+
 .deadCell {
   background-color: #020018;
 }

@@ -12,6 +12,7 @@
       href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap"
       rel="stylesheet"
     />
+    <link rel="icon" type="image/x-icon" href="img/favicon.ico">
   </head>
   <body>
     <aside id="configsContainer">
@@ -29,18 +30,18 @@
         <h4 id="gridSize">10x10</h4>
         <br />
         <p>Width:</p>
-        <input value="10" id="width" type="number" />
+        <input value="25" id="width" type="number" />
         <p>Height:</p>
-        <input value="10" id="height" type="number" />
-        <br>
-         <p>Toroidal grid:</p>
+        <input value="25" id="height" type="number" />
+        <br />
+        <p>Toroidal grid:</p>
         <input checked id="toroidalGridMode" type="checkbox" />
         <br />
         <br />
         <h3>Randomize</h3>
         <br />
         <p>Square size:</p>
-        <input value="10" id="squareSize" type="number" />
+        <input value="15" id="squareSize" type="number" />
         <br />
         <p>Density:</p>
         <input value="50" id="density" type="number" />
@@ -50,29 +51,36 @@
         <br />
         <p>Cell color:</p>
         <input value="#fff8ec" id="cellColor" type="color" />
+        <p class="infoText">
+          Cell color setting only works if age visualization is off.
+        </p>
         <br />
         <p>Age visualization:</p>
         <input checked id="ageVisualization" type="checkbox" />
         <br />
         <p>Death visualization:</p>
         <input checked id="deathVisualization" type="checkbox" />
+        <p class="infoText">
+          Age and death visualization can severely impact performance.
+        </p>
         <br />
         <p>Speed:</p>
         <input value="0.2" id="speed" type="number" />
         <br />
         <br />
+        <p id="saveWarning">You have unsaved settings.</p>
+        <button id="applyButton" type="button" onclick="set()">Apply</button>
+        <br />
+        <button id="cancelButton" type="button" onclick="cancelSettings()">
+          Cancel
+        </button>
+        <br />
         <button id="catalogButton" type="button" onclick="showCatalog()">
           Rulestrings catalog
         </button>
         <br />
-        <br />
         <button id="resetButton" type="button" onclick="reset()">
-          Reset config
-        </button>
-        <br>
-        <br>
-        <button id="applyButton" type="button" onclick="set()">
-          Apply config
+          Reset settings
         </button>
       </form>
     </aside>
@@ -119,26 +127,23 @@
       >
         Gems minor - B34578/S456
       </button>
-         <br />
+      <br />
       <button
         onclick="setRulestring('3', '1,2,3,4,5')"
         class="rulestringButton"
       >
         Maze - B3/S12345
       </button>
-          <br />
-      <button
-        onclick="setRulestring('3', '1,2,3,4,5')"
-        class="rulestringButton"
-      >
+      <br />
+      <button onclick="setRulestring('3', '1,2,3,4')" class="rulestringButton">
         Mazectric - B3/S1234
       </button>
-       <br />
+      <br />
       <button
         onclick="setRulestring('3,7', '1,2,3,4,5')"
         class="rulestringButton"
       >
-        Mazectric with Mice - B37/S1234
+        Maze with Mice - B37/S12345
       </button>
       <br />
       <button onclick="setRulestring('3,4,5', '2')" class="rulestringButton">
@@ -408,13 +413,24 @@
     </div>
     <div id="extrasContainer">
       <div id="buttonsContainer">
-        <button onclick="randomize(10)" id="randomize">Randomize</button>
+        <button onclick="randomize(15)" id="randomize">Randomize</button>
+        <br />
+        <button onclick="createGrid()" id="createGrid">
+          Create / reset grid
+        </button>
         <br />
         <button onclick="pauseToggle()" id="play">Play</button>
       </div>
       <br />
       <div id="infoContainer">
         <p id="gen">gen [/]</p>
+        <p id="population">population [/]</p>
+        <p id="deaths">deaths [/]</p>
+        <p id="births">births [/]</p>
+        <div id="simEstContainer">
+          <br />
+          <p id="simEst" class="infoText">The simulation stabilized.</p>
+        </div>
       </div>
     </div>
 
