@@ -28,7 +28,7 @@ p {
   margin: 10px;
   overflow-y: auto;
   overflow-x: hidden;
-    border-radius: 8px;
+  border-radius: 8px;
 }
 
 input {
@@ -88,7 +88,7 @@ input {
   display: grid;
   /* gap: 1px; */
   padding: 5px;
-    border-radius:10px;
+  border-radius: 10px;
 }
 
 #extrasContainer {
@@ -98,7 +98,7 @@ input {
   width: fit-content;
   margin-left: auto;
   background-color: #f3f3f3;
-    border-radius: 8px;
+  border-radius: 8px;
 }
 
 #extrasContainer #infoContainer p {
@@ -116,6 +116,13 @@ input {
   background-color: rgb(195, 255, 83);
   color: #1542009f;
   border: 2.5px #1542009f solid;
+  font-weight: bold;
+}
+
+#play {
+  background-color: rgb(83, 163, 255);
+  color: #000f429f;
+  border: 2.5px #000f429f solid;
   font-weight: bold;
 }
 

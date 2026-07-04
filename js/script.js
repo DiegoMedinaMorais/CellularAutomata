@@ -121,6 +121,7 @@ const applyCellSize = () => {
 
 const buildGrid = (width, height) => {
   pause = true;
+  pauseCheck();
   countGeneration = true;
   gen = 0;
   deaths = 0;
@@ -190,6 +191,9 @@ const toggleLiving = (id, state = null) => {
 };
 
 const randomize = () => {
+    pause = true;
+      pauseCheck();
+    createGrid();
   let startId =
     Math.floor(height / 2 - squareSize / 2) * width +
     Math.floor(width / 2 - squareSize / 2);
@@ -203,7 +207,6 @@ const randomize = () => {
       }
     }
   }
-  pause = true;
 };
 
 const set = () => {
@@ -312,6 +315,7 @@ const setRulestring = async (b, s) => {
 
 const reset = () => {
   pause = true;
+    pauseCheck();
 
   let widthInput = document.getElementById("width");
   let heightInput = document.getElementById("height");
@@ -691,10 +695,18 @@ const pauseToggle = () => {
   let pauseButton = document.getElementById("play");
   if (pause == true) {
     pause = false;
-    pauseButton.innerHTML = "Pause";
   } else {
-    pause = true;
-    pauseButton.innerHTML = "Play";
+    pause = true;  
+  }
+  pauseCheck();
+};
+
+const pauseCheck = () => {
+ let pauseButton = document.getElementById("play");
+  if (pause == true) {
+    pauseButton.innerHTML = "Pause ⏸️";
+  } else if (pause == false) {
+    pauseButton.innerHTML = "Play ▶️";
   }
 };
 
