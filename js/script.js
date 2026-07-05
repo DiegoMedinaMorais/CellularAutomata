@@ -127,6 +127,10 @@ const buildGrid = (width, height) => {
   deaths = 0;
   population = 0;
   births = 0;
+  document.getElementById("deaths").innerHTML = `deaths = [${deaths}]`;
+  document.getElementById("births").innerHTML = `births = [${births}]`;
+  document.getElementById("gen").innerHTML = `gen = [${gen}]`;
+  document.getElementById("population").innerHTML =`population = [${population}]`;
   hideEstWarning();
   history.length = 0;
   ageArray = [];
@@ -191,9 +195,9 @@ const toggleLiving = (id, state = null) => {
 };
 
 const randomize = () => {
-    pause = true;
-      pauseCheck();
-    createGrid();
+  pause = true;
+  pauseCheck();
+  createGrid();
   let startId =
     Math.floor(height / 2 - squareSize / 2) * width +
     Math.floor(width / 2 - squareSize / 2);
@@ -234,12 +238,25 @@ const set = () => {
     cells.forEach((cell) => cell.classList.remove(...corpseClasses));
   }
 
-  speed = Number(speedValue);
+  if (Number(speedValue) <= 0) {
+    speedValue = 0.01;
+  }
 
+  speed = speedValue;
+  document.getElementById("speed").value = speed;
+
+  if (!ageVisualization) {
   document.documentElement.style.setProperty(
     "--living-color",
     colorInput.value,
   );
+  } else {
+    document.documentElement.style.setProperty(
+    "--living-color",
+    "#fff8ec",
+  ); 
+  }
+
 
   density = Number(densityValue);
   squareSize = Number(squareSizeValue);
@@ -315,7 +332,7 @@ const setRulestring = async (b, s) => {
 
 const reset = () => {
   pause = true;
-    pauseCheck();
+  pauseCheck();
 
   let widthInput = document.getElementById("width");
   let heightInput = document.getElementById("height");
@@ -696,17 +713,55 @@ const pauseToggle = () => {
   if (pause == true) {
     pause = false;
   } else {
-    pause = true;  
+    pause = true;
   }
   pauseCheck();
 };
 
 const pauseCheck = () => {
- let pauseButton = document.getElementById("play");
-  if (pause == true) {
+  let pauseButton = document.getElementById("play");
+  if (pause == false) {
     pauseButton.innerHTML = "Pause ⏸️";
-  } else if (pause == false) {
+  } else if (pause == true) {
     pauseButton.innerHTML = "Play ▶️";
+  }
+};
+
+const step = async () => {
+  for (let i = 0; i < grid.children.length; i++) {
+    mainFunction(i);
+  }
+
+  applyStates();
+
+  const state = getGridState();
+
+  let foundCycle = false;
+  for (let cycle = 1; cycle <= maxHistory; cycle++) {
+    if (history.length >= cycle && state === history[history.length - cycle]) {
+      foundCycle = true;
+      break;
+    }
+  }
+
+  if (foundCycle) {
+    countGeneration = false;
+    showEstWarning();
+  } else {
+    history.push(state);
+
+    if (history.length > maxHistory) {
+      history.shift();
+    }
+
+    if (countGeneration) {
+      gen++;
+      document.getElementById("deaths").innerHTML = `deaths = [${deaths}]`;
+      document.getElementById("births").innerHTML = `births = [${births}]`;
+      document.getElementById("gen").innerHTML = `gen = [${gen}]`;
+      document.getElementById("population").innerHTML =
+        `population = [${populationValue}]`;
+    }
   }
 };
 

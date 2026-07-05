@@ -66,7 +66,7 @@
         <br />
         <p>Speed:</p>
         <input value="0.2" id="speed" type="number" />
-        <br />
+        <p class="infoText">Min speed: 0.01 <br> Max speed: 0.4</p>
         <br />
         <p id="saveWarning">You have unsaved settings.</p>
         <button id="applyButton" type="button" onclick="set()">Apply ✔</button>
@@ -418,6 +418,8 @@
         <button onclick="createGrid()" id="createGrid">
           Create / reset grid
         </button>
+        <br />
+        <button onclick="step()" id="step">Step</button>
         <br />
         <button onclick="pauseToggle()" id="play">Play ▶️</button>
       </div>

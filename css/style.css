@@ -271,78 +271,18 @@ button:active {
   background-color: #5ec8ff;
 }
 
-.corpse1 {
-  background-color: #08001c;
-}
-.corpse2 {
-  background-color: #08011f;
-}
-.corpse3 {
-  background-color: #080221;
-}
-.corpse4 {
-  background-color: #090324;
-}
-.corpse5 {
-  background-color: #090427;
-}
-.corpse6 {
-  background-color: #090529;
-}
-.corpse7 {
-  background-color: #0a062c;
-}
-.corpse8 {
-  background-color: #0a082f;
-}
-.corpse9 {
-  background-color: #0a0931;
-}
-.corpse10 {
-  background-color: #0a0a34;
-}
-.corpse11 {
-  background-color: #0a0b37;
-}
-.corpse12 {
-  background-color: #0b0c39;
-}
-.corpse13 {
-  background-color: #0b0d3c;
-}
-.corpse14 {
-  background-color: #0b0e3f;
-}
-.corpse15 {
-  background-color: #0c0f41;
-}
-.corpse16 {
-  background-color: #0c1044;
-}
-.corpse17 {
-  background-color: #0c1147;
-}
-.corpse18 {
-  background-color: #0c1249;
-}
-.corpse19 {
-  background-color: #0c144c;
-}
-.corpse20 {
-  background-color: #0d154f;
-}
-.corpse21 {
-  background-color: #0d1651;
-}
-.corpse22 {
-  background-color: #0d1754;
-}
-.corpse23 {
-  background-color: #0e1857;
-}
-.corpse24 {
-  background-color: #0e1959;
-}
-.corpse25 {
-  background-color: #0e1a5c;
-}
+.corpse1  { background-color: #08001c; }
+.corpse2  { background-color: #0a082f; }
+.corpse3  { background-color: #0b0d3c; }
+.corpse4  { background-color: #0c1147; }
+.corpse5  { background-color: #0d1754; }
+.corpse6  { background-color: #0e1a5c; }
+.corpse7  { background-color: #10206a; }
+.corpse8  { background-color: #122678; }
+.corpse9  { background-color: #152d86; }
+.corpse10 { background-color: #183494; }
+.corpse11 { background-color: #1b3ba2; }
+.corpse12 { background-color: #1e42b0; }
+.corpse13 { background-color: #2149be; }
+.corpse14 { background-color: #2450cc; }
+.corpse15 { background-color: #2757da; }
