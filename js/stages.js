@@ -64,7 +64,7 @@ const corpseClasses = [
 ];
 
 const corpseThresholds = [
-  0, 1, 2, 4, 6, 8, 10, 13, 16, 19, 22, 26, 30, 35, 40
+  1, 2, 4, 6, 9, 12, 16, 20, 25, 30, 36, 42, 49, 56, 64,
 ];
 
 const getCorpseClass = (deaths) => {

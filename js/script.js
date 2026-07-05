@@ -23,6 +23,7 @@ let maxCellSize = 15;
 let minCellSize = 2;
 let cells = [];
 let toroidalGrid = true;
+let gridCreated = false;
 
 let appliedSettings = {
   width: "25",
@@ -51,10 +52,8 @@ const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const getGridState = () => {
   let state = "";
 
-  for (let i = 0; i < grid.children.length; i++) {
-    state += document.getElementById(i).classList.contains("livingCell")
-      ? "1"
-      : "0";
+  for (let i = 0; i < cells.length; i++) {
+    state += cells[i].classList.contains("livingCell") ? "1" : "0";
   }
 
   return state;
@@ -100,26 +99,31 @@ const dragPaint = (id) => {
   toggleLiving(id, paintAlive);
 };
 
-const calculateCellSize = (cols, rows) => {
-  const container = document.getElementById("content") || document.body;
-  const availableWidth = container.clientWidth - 20;
-  const availableHeight = container.clientHeight - 20;
-
-  const sizeByWidth = availableWidth / cols;
-  const sizeByHeight = availableHeight / rows;
-
-  let size = Math.min(maxCellSize, sizeByWidth, sizeByHeight);
+const calculateCellSize = (cols, rows, squareSide) => {
+  let size = Math.min(maxCellSize, squareSide / cols, squareSide / rows);
   size = Math.max(minCellSize, size);
 
   return size;
 };
 
 const applyCellSize = () => {
-  const cellSize = calculateCellSize(width, height);
-  grid.style.setProperty("--cell-size", `${cellSize}px`);
+  const container = document.getElementById("content") || document.body;
+  const gridContainer = document.getElementById("gridContainer");
+
+  const containerPadding =
+    parseFloat(getComputedStyle(gridContainer).paddingLeft) * 2;
+
+  const availableWidth = container.clientWidth - containerPadding - 20;
+  const availableHeight = container.clientHeight - containerPadding - 20;
+  const squareSide = Math.min(availableWidth, availableHeight);
+
+  const size = calculateCellSize(width, height, squareSide);
+
+  grid.style.setProperty("--cell-size", `${size}px`);
 };
 
 const buildGrid = (width, height) => {
+  gridCreated = true;
   pause = true;
   pauseCheck();
   countGeneration = true;
@@ -130,7 +134,8 @@ const buildGrid = (width, height) => {
   document.getElementById("deaths").innerHTML = `deaths = [${deaths}]`;
   document.getElementById("births").innerHTML = `births = [${births}]`;
   document.getElementById("gen").innerHTML = `gen = [${gen}]`;
-  document.getElementById("population").innerHTML =`population = [${population}]`;
+  document.getElementById("population").innerHTML =
+    `population = [${population}]`;
   hideEstWarning();
   history.length = 0;
   ageArray = [];
@@ -139,7 +144,7 @@ const buildGrid = (width, height) => {
 
   grid.style.gridTemplateColumns = `repeat(${width}, var(--cell-size))`;
   grid.style.gridAutoRows = "var(--cell-size)";
-  grid.style.border = "2px solid #020018";
+  grid.style.border = "7px solid #020018";
 
   applyCellSize();
 
@@ -241,25 +246,24 @@ const set = () => {
   if (Number(speedValue) <= 0) {
     speedValue = 0.01;
   }
-
   speed = speedValue;
   document.getElementById("speed").value = speed;
 
   if (!ageVisualization) {
-  document.documentElement.style.setProperty(
-    "--living-color",
-    colorInput.value,
-  );
-  } else {
     document.documentElement.style.setProperty(
-    "--living-color",
-    "#fff8ec",
-  ); 
+      "--living-color",
+      colorInput.value,
+    );
+  } else {
+    document.documentElement.style.setProperty("--living-color", "#fff8ec");
   }
-
 
   density = Number(densityValue);
   squareSize = Number(squareSizeValue);
+
+  let dimensionsChanged =
+    widthValue !== appliedSettings.width ||
+    heightValue !== appliedSettings.height;
 
   width = Number(widthValue);
   height = Number(heightValue);
@@ -292,8 +296,22 @@ const set = () => {
     deathVisualization,
     toroidalGrid,
   };
+  console.log("a");
+  if (Number(squareSizeValue) > width) {
+    appliedSettings.squareSize = width;
+    squareSizeValue = width;
+      console.log("b");
+  } else if (Number(squareSizeValue)  > height) {
+    appliedSettings.squareSize = height;
+    squareSizeValue = height;
+      console.log("c");
+  }
 
   hideSaved();
+
+  if (gridCreated == true && dimensionsChanged) {
+    createGrid();
+  }
 };
 
 const createGrid = () => {
@@ -318,7 +336,7 @@ const cancelSettings = () => {
 
   document.getElementById("gridSize").innerHTML = `${width}x${height}`;
   document.getElementById("rule").innerHTML =
-    `B${birth.join("")}/S${survival.join("")}`;
+    `B${birth.join("  ")}/S${survival.join("")}`;
 
   hideSaved();
 };
@@ -330,7 +348,7 @@ const setRulestring = async (b, s) => {
   showSaved();
 };
 
-const reset = () => {
+const resetSettings = () => {
   pause = true;
   pauseCheck();
 
@@ -351,18 +369,14 @@ const reset = () => {
   ageValue.checked = true;
   deathValue.checked = true;
   toroidalValue.checked = true;
-
-  speedInput.value = 0.2;
-  densityInput.value = 50;
-  squareSizeInput.value = 15;
-
+  speedInput.value = "0.2";
+  densityInput.value = "50";
+  squareSizeInput.value = "15";
   colorInput.value = "#fff8ec";
-
-  widthInput.value = 25;
-  heightInput.value = 25;
+  widthInput.value = "25";
+  heightInput.value = "25";
   birthInput.value = "3";
   survivalInput.value = "2,3";
-
   gridSize.innerHTML = `25x25`;
   rule.innerHTML = `B3/S23`;
 
@@ -482,7 +496,7 @@ const mainFunction = (id) => {
   let count = 0;
 
   for (let n of neighbors) {
-    let c = document.getElementById(n);
+    let c = cells[n];
     if (c?.classList.contains("livingCell")) count++;
   }
 
