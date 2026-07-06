@@ -55,6 +55,9 @@
           Cell color setting only works if age visualization is off.
         </p>
         <br />
+          <p>Cell id visualization:</p>
+        <input id="idVisualization" type="checkbox" />
+        <br />
         <p>Age visualization:</p>
         <input checked id="ageVisualization" type="checkbox" />
         <br />
@@ -66,7 +69,10 @@
         <br />
         <p>Speed:</p>
         <input value="0.2" id="speed" type="number" />
-        <p class="infoText">Min speed: 0.01 <br> Max speed: 0.4</p>
+        <p class="infoText">
+          Min speed: 0.01 <br />
+          Max speed: 0.4
+        </p>
         <br />
         <p id="saveWarning">You have unsaved settings.</p>
         <button id="applyButton" type="button" onclick="set()">Apply ✔</button>
@@ -406,33 +412,58 @@
       </button>
     </div>
 
+    <div id="info">
+      <h3>What is a cellular automaton?</h3>
+      <br>
+      <p>
+        Cellular automata are grids of cells that are either alive or dead.
+        Every step, each cell looks at its 8 neighbors and decides what happens
+        next based on simple rules.<br><br>  Two rules control everything: <br><br> Birth (B): how
+        many living neighbors a dead cell needs to come alive. <br><br> Survival (S): how
+        many living neighbors a living cell needs to stay alive. Otherwise it
+        dies, from being too alone or too crowded. <br><br> These rules get written like
+        B3/S23, meaning a dead cell is born with 3 living neighbors, and a
+        living cell survives with 2 or 3. <br><br> The most famous rule is Conway's Game
+        of Life (B3/S23), made in 1970. From that one simple rule you get
+        gliders, oscillators, and patterns that keep changing forever, all from
+        cells just checking their neighbors. <br><br> Change the numbers and you get a
+        completely different rule with totally different behavior. That's what
+        this simulator lets you play with.
+      </p>
+    </div>
+
     <div id="content">
       <div id="gridContainer">
         <div id="grid"></div>
       </div>
     </div>
     <div id="extrasContainer">
-      <div id="buttonsContainer">
-        <button onclick="randomize(15)" id="randomize">Randomize</button>
-        <br />
-        <button onclick="createGrid()" id="createGrid">
-          Create / reset grid
-        </button>
-        <br />
-        <button onclick="step()" id="step">Step</button>
-        <br />
-        <button onclick="pauseToggle()" id="play">Play ▶️</button>
-      </div>
-      <br />
-      <div id="infoContainer">
-        <p id="gen">gen [/]</p>
-        <p id="population">population [/]</p>
-        <p id="deaths">deaths [/]</p>
-        <p id="births">births [/]</p>
-        <div id="simEstContainer">
+      <div id="buttonInfoContainer">
+        <div id="buttonsContainer">
+          <button onclick="randomize(15)" id="randomize">Randomize</button>
           <br />
-          <p id="simEst" class="infoText">The simulation stabilized.</p>
+          <button onclick="createGrid()" id="createGrid">
+            Create / reset grid
+          </button>
+          <br />
+          <button onclick="step()" id="step">Step 🕒</button>
+          <br />
+          <button onclick="pauseToggle()" id="play">Play ▶️</button>
         </div>
+        <br />
+        <div id="infoContainer">
+          <p id="gen">gen [/]</p>
+          <p id="population">population [/]</p>
+          <p id="deaths">deaths [/]</p>
+          <p id="births">births [/]</p>
+          <div id="simEstContainer">
+            <br />
+            <p id="simEst" class="infoText">The simulation stabilized.</p>
+          </div>
+        </div>
+      </div>
+      <div id="infoButtonContainer">
+        <button onclick="showInfo()" id="infoButton">Info <span style="font-weight: bold;">ⓘ</span></button>
       </div>
     </div>
 
