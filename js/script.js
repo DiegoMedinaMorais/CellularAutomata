@@ -421,6 +421,7 @@ const mainFunction = (id) => {
   let topLeft = id - width - 1;
 
   if (toroidalGrid == true) {
+
    // right > left
     for (let i = 0; i < height; i++) {
       if (id == width * i) {
@@ -435,19 +436,20 @@ const mainFunction = (id) => {
       }
     }
 
-    // top > bottom
-    for (let i = 0; i < width; i++) {
-      if (id == i) {
-        bottom = id + width * (height - 1);
-      }
-    }
+  // top > bottom
+for (let i = 0; i < width; i++) {
+  if (id == i) {
+    top = id + width * (height - 1);
+  }
+}
 
-    // bottom > top
-    for (let i = 0; i < width; i++) {
-      if (id == width * (height - 1) + i) {
-        top = i;
-      }
-    }
+// bottom > top
+for (let i = 0; i < width; i++) {
+  if (id == width * (height - 1) + i) {
+    bottom = id - width * (height - 1);
+  }
+}
+    
   } else {
     for (let i = 0; i < height; i++) {
       if (id == width * i) {
@@ -456,13 +458,15 @@ const mainFunction = (id) => {
         bottomLeft = -999;
       }
     }
+    
     for (let i = 0; i < width; i++) {
-      if (id == 1 * i) {
+      if (id < width) {
         top = -999;
         topRight = -999;
         topLeft = -999;
       }
     }
+    
     for (let i = 0; i < height; i++) {
       if (id == width * i + (width - 1)) {
         right = -999;
@@ -470,6 +474,7 @@ const mainFunction = (id) => {
         bottomRight = -999;
       }
     }
+    
     for (let i = 0; i < width; i++) {
       if (id == width * height - 1 - i) {
         bottom = -999;
@@ -477,6 +482,7 @@ const mainFunction = (id) => {
         bottomLeft = -999;
       }
     }
+    
   }
 
   let cell = cells[id];
