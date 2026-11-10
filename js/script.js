@@ -429,7 +429,7 @@ const mainFunction = (id) => {
 
     for (let i = 0; i < height; i++) {
       if (id == width * i + (width - 1)) {
-        right = id - width + 1;
+        right = (id - width) + 1;
       }
     }
 
@@ -442,20 +442,6 @@ const mainFunction = (id) => {
     for (let i = 0; i < width; i++) {
       if (id == width * (height - 1) + i) {
         bottom = i;
-      }
-    }
-
-    for (let i = 0; i < height; i++) {
-      if (id == width * i) {
-        topLeft = top + width - 1;
-        bottomLeft = bottom + width - 1;
-      }
-    }
-
-    for (let i = 0; i < height; i++) {
-      if (id == width * i + (width - 1)) {
-        topRight = top - width + 1;
-        bottomRight = bottom - width + 1;
       }
     }
   } else {
