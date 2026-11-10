@@ -421,27 +421,31 @@ const mainFunction = (id) => {
   let topLeft = id - width - 1;
 
   if (toroidalGrid == true) {
+   // right > left
     for (let i = 0; i < height; i++) {
       if (id == width * i) {
         left = id + width - 1;
       }
     }
 
+    // left > right
     for (let i = 0; i < height; i++) {
       if (id == width * i + (width - 1)) {
         right = (id - width) + 1;
       }
     }
 
+    // top > bottom
     for (let i = 0; i < width; i++) {
       if (id == i) {
-        top = id + width * (height - 1);
+        bottom = id + width * (height - 1);
       }
     }
 
+    // bottom > top
     for (let i = 0; i < width; i++) {
       if (id == width * (height - 1) + i) {
-        bottom = i;
+        top = i;
       }
     }
   } else {
