@@ -439,7 +439,7 @@ const mainFunction = (id) => {
     }
 
     for (let i = 0; i < width; i++) {
-      if (id == width * (h - 1) + i) {
+      if (id == width * (height - 1) + i) {
         top = i;
         topLeft = i - 1;
         topRight = i + 1;
