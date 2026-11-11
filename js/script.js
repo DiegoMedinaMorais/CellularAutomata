@@ -440,6 +440,7 @@ const mainFunction = (id) => {
 
     for (let i = 0, i < width, i++) {
       if (id == weight * (h - 1) + i) {
+        console.log(i);
         top = i
         topLeft = i - 1
         topRight = i + 1
@@ -472,7 +473,6 @@ const mainFunction = (id) => {
 
     for (let i = 0; i < height; i++) {
       if (id == width * i + (width - 1)) {
-        print(i);
         right = -999;
         topRight = -999;
         bottomRight = -999;
