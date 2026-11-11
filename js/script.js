@@ -67,20 +67,20 @@ const checkUnsavedChanges = () => {
     document.getElementById("height").value !== appliedSettings.height ||
     document.getElementById("birth").value.trim() !== appliedSettings.birth ||
     document.getElementById("survival").value.trim() !==
-      appliedSettings.survival ||
+    appliedSettings.survival ||
     document.getElementById("speed").value.trim() !== appliedSettings.speed ||
     document.getElementById("density").value !== appliedSettings.density ||
     document.getElementById("squareSize").value !==
-      appliedSettings.squareSize ||
+    appliedSettings.squareSize ||
     document.getElementById("cellColor").value !== appliedSettings.cellColor ||
     document.getElementById("ageVisualization").checked !==
-      appliedSettings.ageVisualization ||
+    appliedSettings.ageVisualization ||
     document.getElementById("idVisualization").checked !==
-      appliedSettings.cellVisualization ||
+    appliedSettings.cellVisualization ||
     document.getElementById("deathVisualization").checked !==
-      appliedSettings.deathVisualization ||
+    appliedSettings.deathVisualization ||
     document.getElementById("toroidalGridMode").checked !==
-      appliedSettings.toroidalGrid;
+    appliedSettings.toroidalGrid;
 
   if (changed) {
     showSaved();
@@ -216,8 +216,8 @@ const toggleLiving = (id, state = null) => {
 
 const randomize = () => {
   pause = true;
-    let s = squareSize
-  if (s > width)  {
+  let s = squareSize
+  if (s > width) {
     s = width
   } else if (s > height) {
     s = height
@@ -422,34 +422,37 @@ const mainFunction = (id) => {
 
   if (toroidalGrid == true) {
 
-   // right > left
-    for (let i = 0; i < height; i++) {
-      if (id == width * i) {
-        left = id + width - 1;
+    for (let i = 0, i < height, i++) {
+      if (id == weight * i) {
+        left = id + (width - 1)
+        bottomLeft = id + (width * 2 - 1)
+        topLeft = id - 1
       }
     }
 
-    // left > right
-    for (let i = 0; i < height; i++) {
-      if (id == width * i + (width - 1)) {
-        right = (id - width) + 1;
+    for (let i = 0, i < height, i++) {
+      if (id == weight * i + (width - 1)) {
+        right = id - (width - 1)
+        bottomRight = id + 1
+        topRight = id - (width * 2 - 1)
       }
     }
 
-  // top > bottom
-for (let i = 0; i < width; i++) {
-  if (id == i) {
-    top = id + width * (height - 1);
-  }
-}
+    for (let i = 0, i < width, i++) {
+      if (id == weight * (h - 1) + i) {
+        top = i
+        topLeft = i - 1
+        topRight = i + 1
+      }
+    }
 
-// bottom > top
-for (let i = 0; i < width; i++) {
-  if (id == width * (height - 1) + i) {
-    bottom = id - width * (height - 1);
-  }
-}
-    
+    for (let i = 0, i < width, i++) {
+      if (id == i) {
+        bottom = id + w * (h - 1)
+        bottomLeft = (id + w * (h - 1)) - 1
+        bottomRight = (id + w * (h - 1)) + 1
+      }
+    }
   } else {
     for (let i = 0; i < height; i++) {
       if (id == width * i) {
@@ -458,7 +461,7 @@ for (let i = 0; i < width; i++) {
         bottomLeft = -999;
       }
     }
-    
+
     for (let i = 0; i < width; i++) {
       if (id < width) {
         top = -999;
@@ -466,7 +469,7 @@ for (let i = 0; i < width; i++) {
         topLeft = -999;
       }
     }
-    
+
     for (let i = 0; i < height; i++) {
       if (id == width * i + (width - 1)) {
         right = -999;
@@ -474,7 +477,7 @@ for (let i = 0; i < width; i++) {
         bottomRight = -999;
       }
     }
-    
+
     for (let i = 0; i < width; i++) {
       if (id == width * height - 1 - i) {
         bottom = -999;
@@ -482,7 +485,7 @@ for (let i = 0; i < width; i++) {
         bottomLeft = -999;
       }
     }
-    
+
   }
 
   let cell = cells[id];
@@ -541,7 +544,10 @@ const applyAge = () => {
         cell.classList.remove(...stageClasses);
         cell.classList.add(getStageClass(newAge));
       } else {
-        ageArray.push({ id: i, age: 0 });
+        ageArray.push({
+          id: i,
+          age: 0
+        });
         cell.classList.remove(...stageClasses);
       }
     } else {
@@ -581,7 +587,10 @@ const applyDeath = () => {
         if (existingDeath) {
           updateDeathById(i, newDeaths);
         } else {
-          deathArray.push({ id: i, deaths: newDeaths });
+          deathArray.push({
+            id: i,
+            deaths: newDeaths
+          });
         }
 
         cell.classList.remove(...corpseClasses);
