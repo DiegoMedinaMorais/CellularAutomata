@@ -423,7 +423,7 @@ const mainFunction = (id) => {
   if (toroidalGrid == true) {
 
     for (let i = 0; i < height; i++) {
-      if (id == weight * i) {
+      if (id ==  * i) {
         left = id + (width - 1)
         bottomLeft = id + (width * 2 - 1)
         topLeft = id - 1
@@ -431,7 +431,7 @@ const mainFunction = (id) => {
     }
 
     for (let i = 0; i < height; i++) {
-      if (id == weight * i + (width - 1)) {
+      if (id == width * i + (width - 1)) {
         right = id - (width - 1);
         bottomRight = id + 1;
         topRight = id - (width * 2 - 1);
@@ -439,7 +439,7 @@ const mainFunction = (id) => {
     }
 
     for (let i = 0; i < width; i++) {
-      if (id == weight * (h - 1) + i) {
+      if (id == width * (h - 1) + i) {
         top = i;
         topLeft = i - 1;
         topRight = i + 1;
