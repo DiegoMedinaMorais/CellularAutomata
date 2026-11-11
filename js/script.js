@@ -472,6 +472,7 @@ const mainFunction = (id) => {
 
     for (let i = 0; i < height; i++) {
       if (id == width * i + (width - 1)) {
+        print(i);
         right = -999;
         topRight = -999;
         bottomRight = -999;
