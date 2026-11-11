@@ -448,9 +448,9 @@ const mainFunction = (id) => {
 
     for (let i = 0; i < width; i++) {
       if (id == i) {
-        bottom = id + w * (h - 1);
-        bottomLeft = (id + w * (h - 1)) - 1;
-        bottomRight = (id + w * (h - 1)) + 1;
+        bottom = id + width * (height - 1);
+        bottomLeft = (id + width * (height - 1)) - 1;
+        bottomRight = (id + width * (height - 1)) + 1;
       }
     }
   } else {
