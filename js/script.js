@@ -443,6 +443,9 @@ const mainFunction = (id) => {
         top = i;
         topLeft = i - 1;
         topRight = i + 1;
+        console.log(top);
+         console.log(topLeft);
+         console.log(topRight);
       }
     }
 
