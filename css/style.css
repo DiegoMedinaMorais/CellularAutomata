@@ -9,6 +9,18 @@
   font-family: "Lexend";
 }
 
+.editor {
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-user-drag: none;
+    touch-action: none;
+    cursor: crosshair;
+}
+
+.editor img {
+    -webkit-user-drag: none;
+}
+
 body {
   display: flex;
   height: 100vh;
